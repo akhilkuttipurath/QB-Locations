@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	
-	$.getJSON("Qb_details.json",function(getdetails) {
+	$.getJSON("../json/Qb_details.json",function(getdetails) {
 		
 			var row = $("<tr />");
 			var header= getdetails.tableHeader;
