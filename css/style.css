@@ -11,6 +11,7 @@ header
 	color: grey;
 	font-size: 30px;
 	padding: 30px;
+	padding-left: 10%;
 }
 section
 {
@@ -18,19 +19,23 @@ section
 	width: 100%;
 }
 #google-map{
-	margin: 0 auto;
+	margin: 10px auto;
 	width: 80%;
 	height: 450px;
+
 	}
 table, tr, th,td {
     border: 1px solid #000000;
     border-collapse: collapse;
     font-family: Arial Black;
     text-align: center;
+
 }
 table
 {
 	margin: 0 auto;
+	width:80%;
+	
 }
 footer
 {

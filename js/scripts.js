@@ -1,53 +1,60 @@
 var google_map;
 $(document).ready(function () {
-
+var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails;
 			$.getJSON("../QB-Locations/json/Qb_details.json", function(getdetails) {
-				
-				var map_data = getdetails.metaData;
-				var Locations=getdetails.Details;
+				getdetails = getdetails;
+				map_data = getdetails.metaData;
+				Locations=getdetails.Details;
 
-				var lat= map_data[0].Latitude;
-				var lon= map_data[0].Longitude;
-				var map_zoom= map_data[0].Zoom;
-				var markers = [];
-
-				
-				
-
-				google.maps.event.addDomListener(window, 'load', initialize(lat,lon,map_zoom, getdetails));
+				lat= map_data[0].Latitude;
+				lon= map_data[0].Longitude;
+				map_zoom= map_data[0].Zoom;
 
 
+				var mapProp = {
+				    center:new google.maps.LatLng(lat,lon),
+				    zoom:map_zoom,
+				    mapTypeId:google.maps.MapTypeId.ROADMAP
+				  };
 
-		
-		/* ADD MARKERS TO LOCATIONS */
-				var i;
-				for (i = 0; i < Locations.length; i++) {                      
-				        var marker = new google.maps.Marker({
+				  google_map = new google.maps.Map(document.getElementById("google-map"), mapProp);
+				  google_map.setZoom(map_zoom);
+
+				/* ADD MARKERS TO LOCATIONS */
+				for (var i = 0; i < Locations.length; i++) {
+
+				         marker = new google.maps.Marker({
 					        map: google_map,
-					        title: 'Hello World!',
-					        position: new google.maps.LatLng(Locations[i].Latitude,Locations[i].Longitude)
+					        position: new google.maps.LatLng(Locations[i].Latitude,Locations[i].Longitude),
+					        title: toString(Locations[i].Headcount)
 				        });
-				        markers[i].push(marker);
-				  }
+
+				        markers.push(marker);
+
+						/* ON MOUSEOVER EVENT TO MARKER */				
+						var infowindow = new google.maps.InfoWindow();
+						
+						google.maps.event.addListener(marker, 'mouseover', function() {
+							infowindow.setContent("Headcount");
+						  	infowindow.open(google_map, this);
+					  	});
+					  	google.maps.event.addListener(marker, 'mouseout', function() {
+							
+						  	infowindow.close(google_map, this);
+					  	});
+						
+				}
+
+				//  Create a new viewpoint bound
+				var bounds = new google.maps.LatLngBounds();
+				//  Go through each...
+				$.each(markers, function (index, marker) {
+					bounds.extend(marker.position);
+				});
+				//  Fit these bounds to the map
+				google_map.fitBounds(bounds);
 
 			});
 
-		/*ONCLICK EVENT TO MARKER*/
-
-
-			
-
-		/* MAP INITIALIZATION FUNCTION */ 
-
-			function initialize(lat,lon,map_zoom, getdetails) {
-
-					  var mapProp = {
-					    center:new google.maps.LatLng(lat,lon),
-					    zoom:map_zoom,
-					    mapTypeId:google.maps.MapTypeId.ROADMAP
-					  };
-
-					  google_map = new google.maps.Map(document.getElementById("google-map"), mapProp);
-					}			
 
 });

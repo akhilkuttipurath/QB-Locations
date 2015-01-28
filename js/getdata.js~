@@ -6,6 +6,7 @@ $(document).ready(function() {
 			var header= getdetails.tableHeader;
 			$("#table").append(row);
 			row.append($("<th>" + header[0].header1 + "</th>"));
+			console.log(header[0].header1);
 			row.append($("<th>" + header[1].header2 + "</th>"));
 			row.append($("<th>" + header[2].header3 + "</th>"));
 		
