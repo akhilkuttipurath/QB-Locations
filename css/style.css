@@ -19,7 +19,8 @@ section
 	width: 100%;
 }
 #google-map{
-	margin: 10px auto;
+
+	margin: 100px auto;
 	width: 80%;
 	height: 450px;
 
@@ -35,10 +36,19 @@ table
 {
 	margin: 0 auto;
 	width:80%;
-	
+	margin-bottom: 100px;
+	border: 1px solid #000000;
 }
 footer
 {
 	float: left;
 	width: 100%;
+}
+::-moz-selection {
+       background-color: #FFA;
+       color: rgba(249, 11, 112, 1);
+   }
+   ::selection {
+       background-color: #FFA;
+       color: rgba(249, 11, 112, 1);
 }
