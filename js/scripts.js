@@ -18,12 +18,9 @@ var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, a
 			var mapprop = {
 		  	  center:new google.maps.LatLng(lat,lon),
 			  zoom:map_zoom,
-			  maptypeid:google.maps.MapTypeId.ROADMAP
+			  maptypeid:google.maps.MapTypeId.ROADMAP,
+			  minZoom:2
 			  };
-			// var infowindow = new google.maps.InfoWindow({
-			//   content: "",
-			//   maxWidth: 50
-			// });
 			google_map = new google.maps.Map(document.getElementById("google-map"), mapprop);
 			setMarkers(google_map,Locations)
 		}
@@ -36,7 +33,8 @@ var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, a
 			    marker = new google.maps.Marker({
 					map: google_map,
 					position: new google.maps.LatLng(Locations[i].Latitude,Locations[i].Longitude),
-					title: "Employee headcount:" + Locations[i].Headcount + ""
+					title: "Employee headcount:" + Locations[i].Headcount + "",
+					icon: new google.maps.MarkerImage('./images/blue.png', null, null, null, new google.maps.Size(35, 40))
 				});
 
 				markers.push(marker);
