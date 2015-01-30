@@ -1,9 +1,37 @@
 var google_map;
 $(document).ready(function () {
 var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, active;
+     //Data table
+	$.ajax({
+		    type: 'GET',
+		    dataType: "json",
+		    url: 'json/Qb_details.json',
+		    data: '',
+		    success: function(response) {
+		      $("#table").html('').append("<thead></thead><tbody></tbody>");
+		      var header= response.tableHeader;
+		      console.log(header[0].header1);
+		        
+		      var head = "<tr><th>" + header[0].header1 + "</th><th>" + header[1].header2 + "</th><th>" + header[2].header3 + "</th></tr>";
+		      $("#table > thead").append(head);
+		          
+		      $.each(response.Details, function(key, value) {
+		             var tblRow = "<tr><td>" + value.Location + "</td><td>" + value.Address+ "</td><td>" + value.Headcount + "</td></tr>";
+		            $("#table > tbody").append(tblRow);
+		       });
+
+		    },
+		    complete: function(response) {
+		      // initializeDatatables('table');
+		      $('#table').dataTable({
+		        "aLengthMenu": [[3, 5, 7,-1], [3, 5, 7, "All"]],
+		        "iDisplayLength": -1
+		       });
+		    }
+	});
 	$.getJSON("../QB-Locations/json/Qb_details.json", function(getdetails) {
 
-		getdetails = getdetails;
+		// getdetails = getdetails;
 		map_data = getdetails.metaData;
 		Locations=getdetails.Details;
 		lat= map_data[0].Latitude;
@@ -53,6 +81,7 @@ var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, a
 					content: "",
 					maxWidth: 200
 				});
+				
 
 				google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
 				    return function() {
@@ -62,12 +91,39 @@ var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, a
 				       infowindow.setZIndex(6);
 				       infowindow.open(google_map,marker);
 				       active = infowindow;
+				       drawChart(this);
 				    };
 				})(marker,content,infowindow));
 			       
 			}		
 		}
-	
+		/**********Pie chart**********/
+		function drawChart(marker) {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Gender');
+        data.addColumn('number', 'Headcount');
+        data.addRows([
+          ['Male', 20],
+          ['Female', 40]
+        ]);
+
+        // Set chart options
+        var options = {'title':'Headcount',
+                       'width':200,
+                       'height':100};
+                       
+        var node        = document.createElement('div'),
+            infoWindow  = new google.maps.InfoWindow(),
+            chart       = new google.visualization.PieChart(node);
+            
+            chart.draw(data, options);
+            infoWindow.setContent(node);
+            infoWindow.open(marker.getMap(),marker);
+      }
+		google.load('visualization', '1', {"callback" : drawVisualization, 'packages': ['table']});
 	});
 			
 });	
+
