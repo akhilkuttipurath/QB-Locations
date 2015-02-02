@@ -1,6 +1,7 @@
 var google_map;
 $(document).ready(function () {
 var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, active;
+infoWindow  = new google.maps.InfoWindow();
      //Data table
 	$.ajax({
 		    type: 'GET',
@@ -76,51 +77,55 @@ var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, a
 				google_map.fitBounds(bounds);
 
 
-			    var content = '<div><b>Location</b>: </div>' + Locations[i].Location + " " + '<div><b>Address</b>:</div>' + Locations[i].Address + " " + '<div><b>Headcount</b>:</div>' + Locations[i].Headcount
+			    // var content = '<div><b>Location</b>: </div>' + Locations[i].Location + " " + '<div><b>Address</b>:</div>' + Locations[i].Address + " " + '<div><b>Headcount</b>:</div>' + Locations[i].Headcount
 			  	var infowindow = new google.maps.InfoWindow({
 					content: "",
 					maxWidth: 200
 				});
-				
+				var content = "Location: "+ Locations[i].Location+"\n"+"Address: "+ Locations[i].Address +"\n" + "Headcount: " + Locations[i].Headcount;
 
-				google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+				google.maps.event.addListener(marker,'click', (function(marker,content,infowindow,i){ 
 				    return function() {
 				       if(active!=null)
-				       		active.close();
-				       infowindow.setContent(content);
-				       infowindow.setZIndex(6);
-				       infowindow.open(google_map,marker);
-				       active = infowindow;
-				       drawChart(this);
+							active.close();
+				       
+				       
+				       drawChart(this,Locations,i, content);
+
 				    };
-				})(marker,content,infowindow));
+				})(marker,content,infowindow,i));
 			       
 			}		
 		}
 		/**********Pie chart**********/
-		function drawChart(marker) {
+		function drawChart(marker, locations,n, content) {
 
         // Create the data table.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Gender');
         data.addColumn('number', 'Headcount');
+        
         data.addRows([
-          ['Male', 20],
-          ['Female', 40]
+          ['Male', locations[n].Male],
+          ['Female', locations[n].Female]
         ]);
-
+    	
         // Set chart options
-        var options = {'title':'Headcount',
-                       'width':200,
-                       'height':100};
+        var options = {'title': content+"\n\n"+'Headcount',
+                       'width':400,
+                       'height':250};
                        
         var node        = document.createElement('div'),
-            infoWindow  = new google.maps.InfoWindow(),
+            // infoWindow  = new google.maps.InfoWindow(),
             chart       = new google.visualization.PieChart(node);
             
             chart.draw(data, options);
             infoWindow.setContent(node);
-            infoWindow.open(marker.getMap(),marker);
+            infoWindow.open(google_map,marker);
+            active = infowindow;
+      }
+      function drawVisualization() {
+
       }
 		google.load('visualization', '1', {"callback" : drawVisualization, 'packages': ['table']});
 	});
