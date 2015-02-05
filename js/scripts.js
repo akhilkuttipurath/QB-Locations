@@ -53,41 +53,21 @@ infoWindow  = new google.maps.InfoWindow();
 			google_map = new google.maps.Map(document.getElementById("google-map"), mapprop);
 			visiblerows();	
 		}
+		google.load('1', {"callback" : drawVisualization, 'packages': ['table']});
 
-		/* ADD MARKERS TO LOCATIONS */
-
-      function drawVisualization() {
-
-      }
-		google.load('visualization', '1', {"callback" : drawVisualization, 'packages': ['table']});
 	});
 
-	function visiblerows()
-			{
 
-				var oTable = $("#table").dataTable();
-				var rows = [];
-				var currentMarkers = [];
-				rows = oTable._('tr', {"filter":"applied"});
-				console.log(rows);
-				var p= rows.length;
-
-				$('#table_filter input').keyup(function() {
-					 currentMarkers= $("#table").dataTable()._('tr', {"filter":"applied"});
-					 
-					 function removeMarkers(){
+	/* To remove all markers */
+	function removeMarkers(){
 					    for(i=0; i<markers.length; i++){
 					        markers[i].setMap(null);
 					    }
-
 					}
-					removeMarkers();
-					setMarkers(google_map,Locations,currentMarkers);
 
-				})
-				setMarkers(google_map,Locations,rows);
-				
-				function drawChart(marker, locations,n, content) {
+
+	/* To draw Pie-charts */
+	function drawChart(marker, locations,n, content) {
 
 			        // Create the data table.
 			        var data = new google.visualization.DataTable();
@@ -114,8 +94,8 @@ infoWindow  = new google.maps.InfoWindow();
 			            active = infowindow;
      			}
 
-
-				function setMarkers(map,locations,rows){
+    /* To set MARKERS on map */
+    function setMarkers(map,locations,rows){
 					var i, marker;
 					var rlen=rows.length;
 					var len=Locations.length;
@@ -170,16 +150,29 @@ infoWindow  = new google.maps.InfoWindow();
 			
 				}
 
-			
-	// 			var anNodes = $("#table tbody tr");
-				 
-	// 			for (var i = 0; i < anNodes.length; ++i)
-	// 			{
-	// 			    var rowData = oTable.fnGetData( anNodes[i] );
-	// 			 console.log(rowData);
-				 
-	// }
+	/* To get visible rows on datatable */
+	function visiblerows()
+			{
 
+				var oTable = $("#table").dataTable();
+				var initialrows = [];
+				var currentMarkers = [];
+				var view = [];
+
+				initialrows = oTable._('tr', {"filter":"applied"});
+				view = oTable.fnGetNodes();
+				var hidden = oTable.fnGetHiddenNodes();
+
+
+				$('#table_filter input').keyup(function() {
+
+					currentMarkers= $("#table").dataTable()._('tr', {"filter":"applied"});
+					
+					removeMarkers();
+					setMarkers(google_map,Locations,currentMarkers);
+
+				})
+				setMarkers(google_map,Locations,initialrows);
 			}		
 			
 });	
