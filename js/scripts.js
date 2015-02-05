@@ -56,9 +56,6 @@ infoWindow  = new google.maps.InfoWindow();
 
 		/* ADD MARKERS TO LOCATIONS */
 
-		
-		/**********Pie chart**********/
-		
       function drawVisualization() {
 
       }
