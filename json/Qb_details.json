@@ -19,7 +19,7 @@
     ],
     "Details": [
          {
-            "Location": "India-Trivandrum",
+            "Location": "India-Trivandrum-Vzd",
             "Address": "4th Floor, Artech Magnet,Vazhuthacaud,Trivandrum - 695014",
             "Latitude": 8.5000117,
             "Longitude": 76.9601089,
@@ -28,7 +28,7 @@
             "Female": 30
         },
         {
-            "Location": "India-Trivandrum",
+            "Location": "India-Trivandrum-Leela",
             "Address": "3rd Floor, Leela Towers,Pattom,Trivandrum - 695004",
             "Latitude": 8.5280237,
             "Longitude": 76.9401103,
@@ -37,7 +37,7 @@
             "Female": 44
         },
         {
-            "Location": "India-Trivandrum",
+            "Location": "India-Trivandrum-Technopark",
             "Address": "C22, Thejaswini,Technopark,Trivandrum - 695581",
             "Latitude": 8.5581041,
             "Longitude": 76.8807406,

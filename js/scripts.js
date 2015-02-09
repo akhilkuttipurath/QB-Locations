@@ -1,7 +1,7 @@
 var google_map;
-$(document).ready(function () {
-var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, active;
-infoWindow  = new google.maps.InfoWindow();
+$(document).ready(function() {
+	var map_data, Locations, lat, lon, marker, map_zoom, markers = [], getdetails, active;
+	infoWindow  = new google.maps.InfoWindow();
      //Data table
 	$.ajax({
 		    type: 'GET',
@@ -50,7 +50,6 @@ infoWindow  = new google.maps.InfoWindow();
 			  minZoom:2
 			  };
 			google_map = new google.maps.Map(document.getElementById("google-map"), mapprop);
-			
 			visiblerows();	
 			
 		}
@@ -70,49 +69,44 @@ infoWindow  = new google.maps.InfoWindow();
 					        markers[i].setMap(null);
 					    }
 
-					}
+	}
 
 	function visiblerows()
 			{
 
-				var oTable = $("#table").dataTable();
+				var otable = $("#table").dataTable();
 				var rows = [];
-				var currentMarkers = [];
-				rows = oTable.fnGetData();
-				console.log(rows);
+				var currentmarkers = [];
+				var selectmarkers = [];
+				var pagemarkers = [];
+				rows = otable.fnGetData();
 				
 
 				$('#table_filter input').keyup(function() {
-					 currentMarkers= $("#table").dataTable()._('tr', {"filter":"applied"});
+					currentmarkers= otable._('tr', {"filter":"applied"});
 					removeMarkers();
-					setMarkers(google_map,Locations,currentMarkers);
-					console.log(currentMarkers);
+					setMarkers(google_map,Locations,currentmarkers);
+					console.log(currentmarkers);
 
 				});
 				$('#table_length select').change(function(){
-					iDisplayStart=$('#table').dataTable().fnSettings()._iDisplayStart;
-					iDisplayLength=$('#table').dataTable().fnSettings()._iDisplayLength;				
+					iDisplayStart=otable.fnSettings()._iDisplayStart;
+					iDisplayLength=otable.fnSettings()._iDisplayLength;				
 					filter = $("#table").dataTable()._('tr', {"filter":"applied"});
-					var currentMarkers = Array.prototype.slice.call(filter, iDisplayStart, iDisplayLength);
+					selectmarkers = Array.prototype.slice.call(filter, iDisplayStart, iDisplayStart + iDisplayLength);
 					removeMarkers();
-					setMarkers(google_map,Locations,currentMarkers);
+					console.log(selectmarkers);
+					setMarkers(google_map,Locations,selectmarkers);
 				});
-				$('#table_previous').on("click",function(){
-					iDisplayStart=$('#table').dataTable().fnSettings()._iDisplayStart;
-					iDisplayLength=$('#table').dataTable().fnSettings()._iDisplayLength;
+				$('#table_paginate').click(function(){
+					iDisplayStart=otable.fnSettings()._iDisplayStart;
+					iDisplayLength=otable.fnSettings()._iDisplayLength;
 					filter = $("#table").dataTable()._('tr', {"filter":"applied"});
-					var currentMarkers = Array.prototype.slice.call(filter, iDisplayStart, iDisplayStart + iDisplayLength);
+					pagemarkers = Array.prototype.slice.call(filter, iDisplayStart, iDisplayStart + iDisplayLength);
 					removeMarkers();
-					setMarkers(google_map,Locations,currentMarkers);
+					setMarkers(google_map,Locations,pagemarkers);
 				});
-				$('#table_next').on("click",function(){
-					iDisplayStart=$('#table').dataTable().fnSettings()._iDisplayStart;
-					iDisplayLength=$('#table').dataTable().fnSettings()._iDisplayLength;
-					filter = $("#table").dataTable()._('tr', {"filter":"applied"});
-					var currentMarkers = Array.prototype.slice.call(filter, iDisplayStart, iDisplayStart + iDisplayLength);
-					removeMarkers();
-					setMarkers(google_map,Locations,currentMarkers);
-				});
+				
 				setMarkers(google_map,Locations,rows);
 			}
 			
@@ -131,7 +125,7 @@ infoWindow  = new google.maps.InfoWindow();
 			    	
 			        // Set chart options
 			        var options = {'title': content+"\n\n"+'Headcount',
-			                       'width':400,
+			                       'width':450,
 			                       'height':250};
 			                       
 			        var node        = document.createElement('div'),
@@ -200,31 +194,7 @@ infoWindow  = new google.maps.InfoWindow();
 			
 				}
 					
-		jQuery.fn.dataTableExt.oApi.fnGetHiddenNodes = function ( settings )
-		{
-			var nodes;
-    		var display = jQuery('tbody tr', settings.nTable);
-    		 if ( jQuery.fn.dataTable.versionCheck ) {
-        		// DataTables 1.10
-        		var api = new jQuery.fn.dataTable.Api( settings );
-        		nodes = api.rows().nodes().toArray();
-    		}
-    		else {
-        		// 1.9-
-        		nodes = this.oApi._fnGetTrNodes( settings );
-    		}
- 
-    		/* Remove nodes which are being displayed */
-    		for ( var i=0 ; i<display.length ; i++ ) {
-        		var iIndex = jQuery.inArray( display[i], nodes );
- 
-        		if ( iIndex != -1 ) {
-        		    nodes.splice( iIndex, 1 );
-       		    }
-    		}
- 
-         return nodes;
-		};
+		 	
 
 });	
 
