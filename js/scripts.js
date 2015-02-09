@@ -54,6 +54,7 @@ infoWindow  = new google.maps.InfoWindow();
 			visiblerows();	
 			
 		}
+		google.load('1', {"callback" : drawVisualization, 'packages': ['table']});
 
 		/* ADD MARKERS TO LOCATIONS */
 
@@ -114,72 +115,7 @@ infoWindow  = new google.maps.InfoWindow();
 				});
 				setMarkers(google_map,Locations,rows);
 			}
-			// function select(){
-			// 	$('#table_length select').change(function(){
-			// 		var i,j;
-			// 		var table = $('#table').dataTable();
-  	// 				var hidden_nodes = table.fnGetHiddenNodes();
-  	// 				var allrows = table.fnGetNodes();
-  	// 				var hidden_len = hidden_nodes.length;
-  	// 				var allrows_len = allrows.length;
-  	// 				var Array_hidden = [];
-  	// 				var Array_rows = [];
-  	// 				var Visible_rows = [];
-  
-  	// 				for(j=0; j< hidden_len; j++)
-  	// 				{
-  	// 				   Array_hidden [j] = [
-  	// 						$(hidden_nodes[j]).find('td').eq(0).html(),
-  	// 						$(hidden_nodes[j]).find('td').eq(1).html(),
-  	// 						$(hidden_nodes[j]).find('td').eq(2).html()
-  	// 					]
-  	// 				}
-  	// 				for(i=0; i< allrows_len; i++)
-  	// 				{
-  	// 				    Array_rows [i] = [
-  	// 						$(allrows[i]).find('td').eq(0).html(),
-  	// 						$(allrows[i]).find('td').eq(1).html(),
-  	// 						$(allrows[i]).find('td').eq(2).html()
-  	// 					]
-  	// 				}
-  	// 				var diff = [];	
-			// 		var visible=arr_diff(Array_hidden,Array_rows);
-			// 		for(i=0; i < visible.length ; i++)
-  	// 				{
-  	// 				    Visible_rows [i] = [
-  	// 						$(visible[i]).html().eq(0)=visible[i],
-  	// 						$(visible[i]).html().eq(1)=visible[i],
-  	// 						$(visible[i]).html().eq(2)=visible[i]
-  							
-  	// 					]
-  	// 				}
-  	// 				console.log(Visible_rows);
-  	// 			});
-  					
-  	// 		}
-  	// 			function arr_diff(a1, a2)
-			// 		{
-			// 		  var a=[], diff=[];
-			// 		  for(var i=0;i<a1.length;i++)
-			// 		    a[a1[i]]=true;
-			// 		  for(var i=0;i<a2.length;i++)
-			// 		    if(a[a2[i]]) delete a[a2[i]];
-			// 		    else a[a2[i]]=true;
-			// 		  for(var k in a)
-			// 		    diff.push(k);
-			// 			// removeMarkers();
-			// 			// setMarkers(google_map,Locations,diff);
-			// 			return diff;
-					  
-			// 		}
-			// 	function toArray(obj) {
-			// 	  var array = [];
-			// 	  // iterate backwards ensuring that length is an UInt32
-			// 	  for (var i = obj.length >>> 0; i--;) { 
-			// 	    array[i] = obj[i];
-			// 	  }
-			// 	  return array;
-			// 	}
+			
 				
 				function drawChart(marker, locations,n, content) {
 
@@ -208,8 +144,8 @@ infoWindow  = new google.maps.InfoWindow();
 			            active = infowindow;
      			}
 
-
-				function setMarkers(map,locations,rows){
+    /* To set MARKERS on map */
+    function setMarkers(map,locations,rows){
 					var i, marker;
 					var rlen=rows.length;
 					console.log(rlen);
